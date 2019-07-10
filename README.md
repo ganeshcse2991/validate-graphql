@@ -1,5 +1,5 @@
-<p align="center"><img src="https://validate-graphql.s3.amazonaws.com/ezgif.com-gif-maker+(1).gif" width="250" />
-<img src="https://validate-graphql.s3.amazonaws.com/ezgif.com-gif-maker+(2).gif" width="250" /></p>
+<!-- <p align="center"><img src="https://validate-graphql.s3.amazonaws.com/ezgif.com-gif-maker+(1).gif" width="250" />
+<img src="https://validate-graphql.s3.amazonaws.com/ezgif.com-gif-maker+(2).gif" width="250" /></p> -->
 
 # validate-graphql
 [![NPM version](https://img.shields.io/npm/v/validate-graphql.svg?style=popout-square)](https://www.npmjs.com/package/validate-graphql)
@@ -20,6 +20,12 @@ validation logic by accepting your own validation functions that can be executed
 npm i --save validate-graphql
 ```
 ## Usage
+Please add the below line to import from validate-graphql
+
+```sh
+import { ValidateGraphql, ValidatedQueries, ValidatedMutations } from 'validate-graphql';
+```
+
 Lets say if you have your queries like below:
 ```javascript
 getAllUsers: {
@@ -39,17 +45,17 @@ let mutations = [...createUser, your_other_mutations]
 ```
 Use the below code at the application start on the file where you build your schema.
 ```javascript
- validate_graphql({ "user_queries": queries, "product_queries": product_queries }, { "user_mutations": mutations }); 
+ ValidateGraphql({ "user_queries": queries, "product_queries": product_queries }, { "user_mutations": mutations }); 
  ```
  
  if you have only one queries array on the whole you can just use
  ```javascript
- validate_graphql({ "my_queries": queries }, { "my_mutations": mutations });
+ ValidateGraphql({ "my_queries": queries }, { "my_mutations": mutations });
  ```
  "my_queries" and "my_mutations" are **user defined** names where you can provide any name of your choice.
  **queries** is your array of **graphql queries** and **mutations** is your array of **graphql mutations**
  
- Then you shoudl pass ```validatedQueries["my_queries"]``` hash and ```validatedMutation["my_mutations"]``` to your schema 
+ Then you shoudl pass ```ValidatedQueries["my_queries"]``` hash and ```validatedMutation["my_mutations"]``` to your schema 
  instead of **queries** and **mutations**
  
 > Please refer example below
@@ -57,16 +63,16 @@ Use the below code at the application start on the file where you build your sch
  let schema = new GraphQLSchema({
 	query: new GraphQLObjectType({
 	name: 'RootQuery',
-	fields: () => validatedQueries['my_queries'], 
+	fields: () => ValidatedQueries['my_queries'], 
 	}),
 	mutation: new GraphQLObjectType({
 	name: 'RootMutation',
-	fields: () => validatedMutations['my_mutations'],
+	fields: () => ValidatedMutations['my_mutations'],
 	}),
    
 ```
-So instead of passing your queries and mutations directly you have to use validatedQueries["queries"] and 
-validatedMutations["mutations"]where "queries" and "mutations" arguments are the user defined names that you have given 
+So instead of passing your queries and mutations directly you have to use ValidatedQueries["queries"] and 
+ValidatedMutations["mutations"]where "queries" and "mutations" arguments are the user defined names that you have given 
 while invoking grapql_validate method.
 
 #An Finally you have to add validate key to your query and mutation for which you want validation to be done:
@@ -121,7 +127,7 @@ getAllUsers: {
 >In case if you have doubt please post an issue and I will make sure this code base is updated frequently.
 
 ## Methods
-> **validate_graphql**(queriesJSON :JSON, mutationsJSON :JSON)
+> **ValidateGraphql**(queriesJSON :JSON, mutationsJSON :JSON)
 
 **Please feel free to Contribute.**
 

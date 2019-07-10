@@ -1,7 +1,7 @@
-export const validatedQueries = {};
-export const validatedMutations = {};
+export const ValidatedQueries = {};
+export const ValidatedMutations = {};
 
-export function validate_graphql(queries, mutations) {
+export function ValidateGraphql(queries, mutations) {
 	validation_iterator(queries, mutations);
 }
 
@@ -18,13 +18,13 @@ function validation_iterator(schemaQueries, schemaMutations) {
 						schemaQueries[name][queryAsString] = actualQuery;
 					}
 				});
-				validatedQueries[name] = schemaQueries[name];
+				ValidatedQueries[name] = schemaQueries[name];
 			}
 		});
 	} catch (error) {
 		console.log("Validation Query Error:");
 		console.log(error);
-		validatedQueries[schemaQueries]
+		ValidatedQueries[schemaQueries]
 	}
 
 		try {
@@ -39,13 +39,13 @@ function validation_iterator(schemaQueries, schemaMutations) {
 							schemaMutations[name][mutationsAsString] = actualMutation;
 						}
 					});
-					validatedMutations[name] = schemaMutations[name];
+					ValidatedMutations[name] = schemaMutations[name];
 				}
 			});
 		} catch (error) {
 			console.log("Validation Mutation Error:");
 			console.log(error);
-			validatedMutations[schemaMutations]
+			ValidatedMutations[schemaMutations]
 		}
 }
 
@@ -91,7 +91,7 @@ function replace_resolver(validate, resolveFunction, schema) {
 }
 
 export default {
-	validatedQueries,
-	validatedMutations,
-	graphql_validate,
+	ValidatedQueries,
+	ValidatedMutations,
+	ValidateGraphql,
 };
