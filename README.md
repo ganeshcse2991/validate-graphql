@@ -1,5 +1,5 @@
-<p align="center"><img src="https://validate-graphql.s3.amazonaws.com/ezgif.com-gif-maker+(1).gif" width="150" /></p>
-<p align="center"><img src="https://validate-graphql.s3.amazonaws.com/ezgif.com-gif-maker+(2).gif" width="150" /></p>
+<p align="center"><img src="https://validate-graphql.s3.amazonaws.com/ezgif.com-gif-maker+(1).gif" width="250" />
+<img src="https://validate-graphql.s3.amazonaws.com/ezgif.com-gif-maker+(2).gif" width="250" /></p>
 
 # validate-graphql
 [![NPM version](https://img.shields.io/npm/v/graphql-validation.svg)](https://www.npmjs.com/package/graphql-validation)
