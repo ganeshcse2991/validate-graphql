@@ -1,6 +1,6 @@
 {
   "name": "validate-graphql",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "NPM module that provides an efficient and elegant way to validate your GraphQL queries and mutations",
   "main": "lib/index.js",
   "repository": {
