@@ -5,9 +5,8 @@
 [![NPM version](https://img.shields.io/npm/v/validate-graphql.svg?style=popout-square)](https://www.npmjs.com/package/validate-graphql)
 [![License: MIT](https://img.shields.io/github/license/ganeshcse2991/validate-graphql.svg)](https://opensource.org/licenses/MIT)
 
-`validate-graphql` is a simple and elegant module that provides you an easy way to validate your queries and mutation with your own logic.
-By default this module does not provide any existing validators but allows an excellent way to configure your own
-validation logic by accepting your own validation functions that can be executed before your resolver gets executed.
+`validate-graphql` is a simple and elegant module that provides you an easy way to validate your queries and mutation with your own logic and YUP validation module.
+This allows an excellent way to configure your own validation logic by accepting your own validation functions that can be executed before your resolver gets executed.
 
 ## Features
 - Can be used to validate type validation and value validation
@@ -63,11 +62,15 @@ Use the below code at the application start on the file where you build your sch
  let schema = new GraphQLSchema({
 	query: new GraphQLObjectType({
 	name: 'RootQuery',
+	
 	fields: () => ValidatedQueries['my_queries'], 
+	
 	}),
 	mutation: new GraphQLObjectType({
 	name: 'RootMutation',
+	
 	fields: () => ValidatedMutations['my_mutations'],
+	
 	}),
    
 ```
@@ -75,7 +78,7 @@ So instead of passing your queries and mutations directly you have to use Valida
 ValidatedMutations["mutations"]where "queries" and "mutations" arguments are the user defined names that you have given 
 while invoking grapql_validate method.
 
-#An Finally you have to add validate key to your query and mutation for which you want validation to be done:
+And Finally you have to add **validate** key to your query and mutation for which you want validation to be done:
 
 **validate** key will accept only a function. You will be getting args and context in the function that you will pass
 to the validate key.
@@ -89,6 +92,7 @@ getAllUsers: {
   role: userRoleField
   },
   resolve: resolveGetAllUsers,
+  
   validate: function(args, context){ //Please note you will get only two arguments args and context
     if(args.role == 'admin'){
       return { status: true}
@@ -113,6 +117,7 @@ getAllUsers: {
   role: userRoleField
   },
   resolve: resolveGetAllUsers,
+  
   validate: function(args, context){ //Please note you will get only two arguments args and context
     if(args.role == 'admin'){
       return { status: true}
@@ -124,6 +129,47 @@ getAllUsers: {
   }
 },
 ```
+
+## Using YUP
+
+
+You can give your [YUP](https://github.com/jquense/yup) schema on the field **validationSchema** in your query and mutation.
+Please see this link on how to create [YUP SCHEMA](https://github.com/jquense/yup).
+
+**NOTE: your "validationSchema"  will not get validated if you are not passing "valildate" field in your query and mutation.**
+**Also your validationSchema will get exectuted first before your "validate" function.**
+
+The field **validationSchema** accepts a JSON with two keys **schema** and **error_field**. You should give your **YUP schema** in schema key and the **field name you want the errors in the response in "error_field"
+
+```javascript
+getAllUsers: {
+  type: new GraphQLList(userType),
+  args: {
+  id: userIdField,
+  role: userRoleField
+  email: userEmailField
+  },
+  resolve: resolveGetAllUsers,
+  
+  validate: function(args, context){ //Please note you will get only two arguments args and context
+    if(args.role == 'admin'){
+      return { status: true}
+    }else {
+      return { status: false, data: { code: "103", message: "My Custome Error message"}}
+      //In case your validation returns false response will be
+      //{ code: "103", message: "My Custome Error message"}
+    }
+  },
+  
+  
+  validationSchema: { schema: yupSchema, error_field: "errors" } //This will get executed before validate function
+  //This will give { errors: "email is not valid" } as response for bad emails
+  
+},
+```
+
+**NOTE: If you are not passing "validate" key and "validationSchema" key your normal resolvers will get invoked asusual.**
+
 >In case if you have doubt please post an issue and I will make sure this code base is updated frequently.
 
 ## Methods
