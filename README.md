@@ -30,19 +30,27 @@ Lets say if you have your queries like below:
 getAllUsers: {
   type: new GraphQLList(userType),
   args: {
-  id: userIdField,
+  	id: userIdField,
   },
   resolve: resolveGetAllUsers,
-},
- .
- .
- .
-};
+}
+
+
+createUser: {
+  type: userType,
+  args: {
+  	name: userNameField,
+	manager: userManagerField,
+	email: userEmailField
+  },
+  resolve: resolveCreateUser,
+}
+
 
 let queries = [...getAllUsers, your_other_queries]
 let mutations = [...createUser, your_other_mutations]
 ```
-Use the below code at the application start on the file where you build your schema.
+Use the below code on the file where you build your schema. This will build a custom schema on the application start.
 ```javascript
  ValidateGraphql({ "user_queries": queries, "product_queries": product_queries }, { "user_mutations": mutations }); 
  ```
@@ -52,9 +60,9 @@ Use the below code at the application start on the file where you build your sch
  ValidateGraphql({ "my_queries": queries }, { "my_mutations": mutations });
  ```
  "my_queries" and "my_mutations" are **user defined** names where you can provide any name of your choice.
- **queries** is your array of **graphql queries** and **mutations** is your array of **graphql mutations**
+ **queries, mutations** are your array of **graphql queries** and **graphql mutations** respectively.
  
- Then you shoudl pass ```ValidatedQueries["my_queries"]``` hash and ```validatedMutation["my_mutations"]``` to your schema 
+ Then you should pass ```ValidatedQueries["my_queries"]``` hash and ```ValidatedMutations["my_mutations"]``` to your schema 
  instead of **queries** and **mutations**
  
 > Please refer example below
@@ -74,39 +82,19 @@ Use the below code at the application start on the file where you build your sch
 	}),
    
 ```
-So instead of passing your queries and mutations directly you have to use ValidatedQueries["queries"] and 
-ValidatedMutations["mutations"]where "queries" and "mutations" arguments are the user defined names that you have given 
-while invoking grapql_validate method.
+So instead of passing your queries and mutations directly you have to use ```ValidatedQueries["queries"]``` and 
+```ValidatedMutations["mutations"]``` where "queries" and "mutations" arguments are the user defined names that you have given 
+while invoking **ValidateGraphql** method.
 
 And Finally you have to add **validate** key to your query and mutation for which you want validation to be done:
 
 **validate** key will accept only a function. You will be getting args and context in the function that you will pass
 to the validate key.
 
-Please see below example:
-```javascript
-getAllUsers: {
-  type: new GraphQLList(userType),
-  args: {
-  id: userIdField,
-  role: userRoleField
-  },
-  resolve: resolveGetAllUsers,
-  
-  validate: function(args, context){ //Please note you will get only two arguments args and context
-    if(args.role == 'admin'){
-      return { status: true}
-    }else {
-      return { status: false, message: "Role shoule be admin"}
-    }
-  }
-},
-```
+The **function that you give in "validate"** should return a JSON with **status** field value as true/false.
+If **status** is true your resolver gets executed, else you will an error JSON with two keys **{ status: "Validation Failed", message: "Error message"}**.
 
-If the return value contains **status** to be true we will execute your resolver function and send the response.
-If it fails we will throw error message that you pass in the return status as **message** as shown above.
-
-If you want to return custom error message from your own validate function you should pass **data** key in the 
+If you want to return **custom error message** from your own validate function you should pass **data** key in the 
 return statement. Please see example below:
 
 ```javascript
@@ -132,14 +120,13 @@ getAllUsers: {
 
 ## Using YUP
 
-
 You can give your [YUP](https://github.com/jquense/yup) schema on the field **validationSchema** in your query and mutation.
 Please see this link on how to create [YUP SCHEMA](https://github.com/jquense/yup).
 
 **NOTE: your "validationSchema"  will not get validated if you are not passing "valildate" field in your query and mutation.**
 **Also your validationSchema will get exectuted first before your "validate" function.**
 
-The field **validationSchema** accepts a JSON with two keys **schema** and **error_field**. You should give your **YUP schema** in schema key and the **field name you want the errors in the response in "error_field"
+The field **validationSchema** accepts a JSON with two keys **schema** and **error_field**. You should give your **YUP schema** in schema key and **"errror_field"** should contain a string, which is the field name for your errors in the response.
 
 ```javascript
 getAllUsers: {
