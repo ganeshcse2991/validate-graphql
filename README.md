@@ -2,9 +2,8 @@
 <img src="https://validate-graphql.s3.amazonaws.com/ezgif.com-gif-maker+(2).gif" width="250" /></p>
 
 # validate-graphql
-[![NPM version](https://img.shields.io/npm/v/graphql-validation.svg)](https://www.npmjs.com/package/graphql-validation)
-[![Minified size](https://img.shields.io/bundlephobia/min/graphql-validation.svg)](https://img.shields.io/bundlephobia/min/graphql-validation.svg)
-[![License: MIT](https://img.shields.io/npm/l/graphql-validation.svg)](https://opensource.org/licenses/MIT)
+[![NPM version](https://img.shields.io/npm/v/validate-graphql.svg?style=popout-square)](https://www.npmjs.com/package/validate-graphql)
+[![License: MIT](https://img.shields.io/github/license/ganeshcse2991/validate-graphql.svg)](https://opensource.org/licenses/MIT)
 
 `validate-graphql` is a simple and elegant module that provides you an easy way to validate your queries and mutation with your own logic.
 By default this module does not provide any existing validators but allows an excellent way to configure your own
