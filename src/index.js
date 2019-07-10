@@ -49,19 +49,19 @@ function validation_iterator(schemaQueries, schemaMutations) {
 		}
 }
 
-function replace_resolver(validate, resolveFunction, schema) {
+function replace_resolver(validate, resolveFunction, validationSchema) {
 	return async function (obj, args, context, info) {
 		try {
 			let validatorType = typeof validate;
 			if (validate != null && validate != undefined && validatorType == 'function') {
 				let isValid = true;
 				let validationErrors = {}
-				schema != null && schema.validate != null ? schema.validate(args).catch(function (err) {
+				validationSchema != null && validationSchema.schema != null && validationSchema.schema.validate != null ? await validationSchema.schema.validate(args).catch(function (err) {
 					isValid = false;
 					validationErrors = {
 						status: 'Validation failed',
-						errors: err.errors
 					}
+					validationErrors[validationSchema.error_field] = err.errors.join(", ")
 				}) : isValid;
 
 				if (!isValid) {
@@ -81,6 +81,7 @@ function replace_resolver(validate, resolveFunction, schema) {
 					};
 				}
 			} else {
+				return resolveFunction.apply(undefined, [obj, args, context, info]);
 			}
 		} catch (error) {
 			console.log("Validation Resolve Error:")

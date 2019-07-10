@@ -1,6 +1,6 @@
 {
   "name": "validate-graphql",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "NPM module that provides an efficient and elegant way to validate your GraphQL queries and mutations",
   "main": "lib/index.js",
   "repository": {
@@ -28,15 +28,19 @@
     "url": "https://github.com/ganeshcse2991/validate-graphql/issues"
   },
   "homepage": "https://github.com/ganeshcse2991/validate-graphql#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.4.5"
+  },
   "devDependencies": {
     "@babel/cli": "^7.5.0",
     "@babel/core": "^7.5.4",
+    "@babel/plugin-transform-runtime": "^7.5.0",
     "@babel/preset-env": "^7.5.4",
     "@babel/preset-es2015": "^7.0.0-beta.53",
     "babel-eslint": "^10.0.1",
+    "babel-preset-minify": "^0.5.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.17.3",
-    "babel-preset-minify": "^0.5.0"
+    "eslint-plugin-import": "^2.17.3"
   }
 }
