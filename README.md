@@ -155,7 +155,7 @@ getAllUsers: {
 },
 ```
 
-**NOTE: If you are not passing "validate" key and "validationSchema" key your normal resolvers will get invoked asusual.**
+**NOTE- If you are not passing "validate" key and "validationSchema" key your normal resolvers will get invoked asusual.**
 
 >In case if you have doubt please post an issue and I will make sure this code base is updated frequently.
 
