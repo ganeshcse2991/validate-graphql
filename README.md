@@ -19,7 +19,7 @@ This allows an excellent way to configure your own validation logic by accepting
 npm i --save validate-graphql
 ```
 ## Usage
-Please add the below line to import from validate-graphql
+Please add below line to import from validate-graphql
 
 ```sh
 import { ValidateGraphql, ValidatedQueries, ValidatedMutations } from 'validate-graphql';
